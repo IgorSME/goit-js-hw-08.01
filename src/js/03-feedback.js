@@ -11,23 +11,26 @@ const refs = {
 refs.form.addEventListener("input", throttle(onFormInput, 500));
 refs.form.addEventListener("submit", onFormSubmit)
 
+
 const userData = {
     // email: "",
     // message: "",
 }
-
 onDataFromStorage();
 function onDataFromStorage() {
-    const formEl = JSON.parse(localStorage.getItem("feedback-form-state"));
-    
-    if (formEl?.email) {
-        refs.email.value = formEl.email;
+    const formEl = localStorage.getItem("feedback-form-state");
+    if (formEl) {
+        const parsedFormEl = JSON.parse(formEl);
+        for (let key in parsedFormEl) {
+            userData[key] = parsedFormEl[key];
+        }
     }
-    if (formEl?.message) {
-        refs.textarea.value = formEl.message;
-    }
-}
+    // console.log(userData['email']);
+    // console.log(refs.textarea.value);
 
+    refs.email.value = userData.email ? userData.email : "";
+    refs.textarea.value = userData.message ? userData.message : "";
+}
 
 function onFormInput(e) {
     userData[e.target.name] = e.target.value;
@@ -36,9 +39,13 @@ function onFormInput(e) {
 
 function onFormSubmit(e) {
     e.preventDefault();
+    // console.log(e.currentTarget.elements);
+    const { email, message } = e.currentTarget.elements;
 
-    console.log(JSON.parse(localStorage.getItem("feedback-form-state")));
+    if (email.value === '' || message.value === '') {
+    return console.log('Заполни все поля!!!!');
+  }
+    console.log(userData);
     e.target.reset();
     localStorage.removeItem("feedback-form-state");
-    
 }
