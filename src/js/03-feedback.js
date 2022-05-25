@@ -12,16 +12,18 @@ refs.form.addEventListener("input", throttle(onFormInput, 500));
 refs.form.addEventListener("submit", onFormSubmit)
 
 const userData = {
+    // email: "",
+    // message: "",
 }
 
 onDataFromStorage();
 function onDataFromStorage() {
     const formEl = JSON.parse(localStorage.getItem("feedback-form-state"));
     
-    if (formEl.email) {
+    if (formEl?.email) {
         refs.email.value = formEl.email;
     }
-    if (formEl.message) {
+    if (formEl?.message) {
         refs.textarea.value = formEl.message;
     }
 }
