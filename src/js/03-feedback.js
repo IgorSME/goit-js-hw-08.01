@@ -12,10 +12,9 @@ refs.form.addEventListener("input", throttle(onFormInput, 500));
 refs.form.addEventListener("submit", onFormSubmit)
 
 
-const userData = {
-    // email: "",
-    // message: "",
+let userData = {
 }
+
 onDataFromStorage();
 function onDataFromStorage() {
     const formEl = localStorage.getItem("feedback-form-state");
@@ -25,8 +24,6 @@ function onDataFromStorage() {
             userData[key] = parsedFormEl[key];
         }
     }
-    // console.log(userData['email']);
-    // console.log(refs.textarea.value);
 
     refs.email.value = userData.email ? userData.email : "";
     refs.textarea.value = userData.message ? userData.message : "";
@@ -47,5 +44,6 @@ function onFormSubmit(e) {
   }
     console.log(userData);
     e.target.reset();
+    userData = {};
     localStorage.removeItem("feedback-form-state");
 }
